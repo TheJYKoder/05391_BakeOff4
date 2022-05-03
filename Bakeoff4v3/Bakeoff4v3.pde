@@ -112,12 +112,10 @@ void draw() {
     rect(width/2, height-offSetUp, recLongSide, recShortSide);
     fill(255);//white
     text("Trial " + (index+1) + " of " +trialCount, width/2, 700);
-    text("Target #" + (targets.get(index).target)+1, width/2, 750);
   }
   else {
     fill(255);//white
     text("Trial " + (index+1) + " of " +trialCount, width/2, 300);
-    text("Target #" + (targets.get(index).target)+1, width/2, 350);
     textSize(80);
     if (targets.get(index).action==0)
       text("COVER", width/2, 500);
@@ -125,10 +123,35 @@ void draw() {
       text("OPEN", width/2, 500);
     textSize(40);
     text("TILT IN ANY DIRECTION", width/2, 550);
+    
+    fill(180, 180, 180);
+    stroke(0);
+    strokeWeight(0);
+    if(light < lightThresh) {
+      fill(0,255,0); 
+    }
+    if(targets.get(trialIndex).action==0) {
+      stroke(255,0,0);
+      strokeWeight(10);
+    }
+    rect(width/2-100, height/2, recShortSide, recLongSide);
+    
+    fill(180, 180, 180);
+    stroke(0);
+    strokeWeight(0);
+    if(light >= lightThresh) {
+      fill(0,255,0); 
+    }
+    if(targets.get(trialIndex).action==1) {
+      strokeWeight(10);
+      stroke(255,0,0);
+    }
+    rect(width/2+100, height/2, recShortSide, recLongSide);
+    stroke(0);
+    strokeWeight(0);  
   }
 }
 
-boolean covered = false;
 double xThresh = 5;
 double yThresh = 5;
 double xFlatThresh = 3;
