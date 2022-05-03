@@ -50,7 +50,7 @@ void setup() {
 
 boolean stageOne = true;
 boolean correctOne = false;
-double lightThresh = 30;
+double lightThresh = 20;
 
 void draw() {
   int index = trialIndex;
@@ -110,7 +110,9 @@ void draw() {
       fill(0,255,0);
     }
     rect(width/2, height-offSetUp, recLongSide, recShortSide);
-    
+    fill(255);//white
+    text("Trial " + (index+1) + " of " +trialCount, width/2, 700);
+    text("Target #" + (targets.get(index).target)+1, width/2, 750);
   }
   else {
     fill(255);//white
@@ -182,6 +184,7 @@ void onAccelerometerEvent(float x, float y, float z)
   }
   
   if((x >= xThresh || x <= -xThresh || y >= yThresh || y <= -yThresh)  && !selectionActive && !stageOne) {
+    println(light);
     if(light < lightThresh) {
       if(targets.get(trialIndex).action==0 && correctOne) {
         trialIndex++;
