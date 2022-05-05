@@ -14,7 +14,7 @@ private class Target
   int action = 0;
 }
 
-int trialCount = 3; //this will be set higher for the bakeoff
+int trialCount = 10; //this will be set higher for the bakeoff
 int trialIndex = 0;
 ArrayList<Target> targets = new ArrayList<Target>();
 
@@ -24,7 +24,7 @@ boolean userDone = false;
 int countDownTimerWait = 0;
 
 void setup() {
-  size(1440,3040); //you should change this to be fullscreen per your phones screen
+  size(720,1080); //you should change this to be fullscreen per your phones screen
   frameRate(60);
   orientation(PORTRAIT);
    
@@ -50,7 +50,7 @@ void setup() {
 
 boolean stageOne = true;
 boolean correctOne = false;
-double lightThresh = 20;
+double lightThresh = 3;
 
 void draw() {
   int index = trialIndex;
@@ -77,11 +77,11 @@ void draw() {
     return;
   }
   
-  int offSetSide = 200;
-  int offSetUp = 500;
+  int offSetSide = 150;
+  int offSetUp = 150;
   int goal = targets.get(trialIndex).target;
-  int recShortSide = 100;
-  int recLongSide = 300;
+  int recShortSide = 50;
+  int recLongSide = 150;
   if(stageOne) {
     //Left Side
     fill(180, 180, 180);
@@ -158,6 +158,10 @@ double xFlatThresh = 3;
 double yFlatThresh = 3;
 boolean selectionActive = false;
 
+void onProximityEvent(float d) {
+  println(d);
+  light = d;
+}
 void onAccelerometerEvent(float x, float y, float z)
 {
   int goal = targets.get(trialIndex).target;
@@ -207,7 +211,7 @@ void onAccelerometerEvent(float x, float y, float z)
   }
   
   if((x >= xThresh || x <= -xThresh || y >= yThresh || y <= -yThresh)  && !selectionActive && !stageOne) {
-    println(light);
+    //println(light);
     if(light < lightThresh) {
       if(targets.get(trialIndex).action==0 && correctOne) {
         trialIndex++;
@@ -242,7 +246,7 @@ void onAccelerometerEvent(float x, float y, float z)
   }
 }
 
-void onLightEvent(float v) //this just updates the global light value
-{
-  light = v;
-}
+//void onLightEvent(float v) //this just updates the global light value
+//{
+//  light = v;
+//}
