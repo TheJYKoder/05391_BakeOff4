@@ -48,6 +48,7 @@ void setup() {
   Collections.shuffle(targets); // randomize the order of the button;
 }
 
+boolean hasStarted = false;
 boolean stageOne = true;
 boolean correctOne = false;
 double lightThresh = 3;
@@ -61,7 +62,7 @@ void draw() {
 
   countDownTimerWait--;
 
-  if (startTime == 0)
+  if (startTime == 0 && hasStarted)
     startTime = millis();
 
   if (index>=targets.size() && !userDone)
@@ -111,45 +112,20 @@ void draw() {
     }
     rect(width/2, height-offSetUp, recLongSide, recShortSide);
     fill(255);//white
-    text("Trial " + (index+1) + " of " +trialCount, width/2, 700);
+    text("Trial " + (index+1) + " of " +trialCount, width/2, 300);
   }
   else {
     fill(255);//white
     text("Trial " + (index+1) + " of " +trialCount, width/2, 300);
     textSize(80);
-    if (targets.get(index).action==0)
+    if (targets.get(index).action==0 && light >= lightThresh)
       text("COVER", width/2, 500);
-    else
+    else if (targets.get(index).action==1 && light < lightThresh)
       text("OPEN", width/2, 500);
-    textSize(40);
-    text("TILT IN ANY DIRECTION", width/2, 550);
-    
-    fill(180, 180, 180);
-    stroke(0);
-    strokeWeight(0);
-    if(light < lightThresh) {
-      fill(0,255,0); 
-    }
-    if(targets.get(trialIndex).action==0) {
-      stroke(255,0,0);
-      strokeWeight(10);
-    }
-    rect(width/2-100, height/2, recShortSide, recLongSide);
-    
-    fill(180, 180, 180);
-    stroke(0);
-    strokeWeight(0);
-    if(light >= lightThresh) {
-      fill(0,255,0); 
-    }
-    if(targets.get(trialIndex).action==1) {
-      strokeWeight(10);
-      stroke(255,0,0);
-    }
-    rect(width/2+100, height/2, recShortSide, recLongSide);
-    stroke(0);
-    strokeWeight(0);  
-  }
+    else
+      text("TILT", width/2, 500);
+    textSize(40);  
+}
 }
 
 double xThresh = 5;
@@ -159,11 +135,14 @@ double yFlatThresh = 3;
 boolean selectionActive = false;
 
 void onProximityEvent(float d) {
-  println(d);
   light = d;
 }
+
 void onAccelerometerEvent(float x, float y, float z)
 {
+  if(!hasStarted) {
+     hasStarted = true; 
+  }
   int goal = targets.get(trialIndex).target;
   if(x >= xThresh && !selectionActive && stageOne) {
     selectionActive = true;
@@ -246,7 +225,10 @@ void onAccelerometerEvent(float x, float y, float z)
   }
 }
 
-//void onLightEvent(float v) //this just updates the global light value
-//{
-//  light = v;
-//}
+/*
+void onLightEvent(float v) //this just updates the global light value
+{
+  println(v);
+  light = v;
+}
+*/
