@@ -14,7 +14,7 @@ private class Target
   int action = 0;
 }
 
-int trialCount = 3; //this will be set higher for the bakeoff
+int trialCount = 10; //this will be set higher for the bakeoff
 int trialIndex = 0;
 ArrayList<Target> targets = new ArrayList<Target>();
 
