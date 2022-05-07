@@ -7,7 +7,7 @@ float light = 0;
 float last_light_value = 0;
 float proxSensorThreshold = 20; //you will need to change this per your device.
 int choose4target = 0;
-
+PImage img;
 private class Target
 {
   int target = 0;
@@ -27,10 +27,12 @@ void setup() {
   size(720,1080); //you should change this to be fullscreen per your phones screen
   frameRate(60);
   orientation(PORTRAIT);
-   
+  
+  img = loadImage("hand.png");
+  println(img);
   sensor = new KetaiSensor(this);
   sensor.start();
-  println(sensor.list());
+  //println(sensor.list());
   
   rectMode(CENTER);
   textFont(createFont("Arial", 40)); //sets the font to Arial size 20
@@ -42,7 +44,7 @@ void setup() {
     t.target = ((int)random(1000))%4;
     t.action = ((int)random(1000))%2;
     targets.add(t);
-    println("created target with " + t.target + "," + t.action);
+    //println("created target with " + t.target + "," + t.action);
   }
 
   Collections.shuffle(targets); // randomize the order of the button;
@@ -119,7 +121,7 @@ void draw() {
     text("Trial " + (index+1) + " of " +trialCount, width/2, 300);
     textSize(80);
     if (targets.get(index).action==0 && light >= lightThresh)
-      text("COVER", width/2, 500);
+      image(img, width/2-200, height/2-100, 500, 500);
     else if (targets.get(index).action==1 && light < lightThresh)
       text("OPEN", width/2, 500);
     else
