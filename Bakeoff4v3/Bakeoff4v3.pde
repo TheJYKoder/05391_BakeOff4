@@ -80,54 +80,60 @@ void draw() {
     return;
   }
   
+  
   int offSetSide = 150;
   int offSetUp = 150;
   int goal = targets.get(trialIndex).target;
   int recShortSide = 50;
   int recLongSide = 150;
-  if(stageOne) {
-    //Left Side
-    fill(180, 180, 180);
-    if(goal == 0) {
-      fill(0,255,0);
-    }
-    rect(offSetSide, height/2, recShortSide, recLongSide);
-    
-    //Up Side
-    fill(180, 180, 180);
-    if(goal == 1) {
-      fill(0,255,0);
-    }
-    rect(width/2,offSetUp, recLongSide, recShortSide);
-    
-    //Right Side
-    fill(180, 180, 180);
-    if(goal == 2) {
-      fill(0,255,0);
-    }
-    rect(width - offSetSide, height/2, recShortSide, recLongSide);
-    
-    //Down Side
-    fill(180, 180, 180);
-    if(goal == 3) {
-      fill(0,255,0);
-    }
-    rect(width/2, height-offSetUp, recLongSide, recShortSide);
-    fill(255);//white
-    text("Trial " + (index+1) + " of " +trialCount, width/2, 300);
+  if(!hasStarted) {
+    text("Tap Anywhere to Begin", width/2, 300);
   }
   else {
-    fill(255);//white
-    text("Trial " + (index+1) + " of " +trialCount, width/2, 300);
-    textSize(80);
-    if (targets.get(index).action==0 && light >= lightThresh)
-      image(img, width/2-200, height/2-100, 500, 500);
-    else if (targets.get(index).action==1 && light < lightThresh)
-      text("OPEN", width/2, 500);
-    else
-      text("TILT", width/2, 500);
-    textSize(40);  
-}
+    if(stageOne) {
+      //Left Side
+      fill(180, 180, 180);
+      if(goal == 0) {
+        fill(0,255,0);
+      }
+      rect(offSetSide, height/2, recShortSide, recLongSide);
+      
+      //Up Side
+      fill(180, 180, 180);
+      if(goal == 1) {
+        fill(0,255,0);
+      }
+      rect(width/2,offSetUp, recLongSide, recShortSide);
+      
+      //Right Side
+      fill(180, 180, 180);
+      if(goal == 2) {
+        fill(0,255,0);
+      }
+      rect(width - offSetSide, height/2, recShortSide, recLongSide);
+      
+      //Down Side
+      fill(180, 180, 180);
+      if(goal == 3) {
+        fill(0,255,0);
+      }
+      rect(width/2, height-offSetUp, recLongSide, recShortSide);
+      fill(255);//white
+      text("Trial " + (index+1) + " of " +trialCount, width/2, 300);
+    }
+    else {
+      fill(255);//white
+      text("Trial " + (index+1) + " of " +trialCount, width/2, 300);
+      textSize(80);
+      if (targets.get(index).action==0 && light >= lightThresh)
+        image(img, width/2-200, height/2-100, 500, 500);
+      else if (targets.get(index).action==1 && light < lightThresh)
+        text("OPEN", width/2, 500);
+      else
+        text("TILT", width/2, 500);
+      textSize(40);  
+    }
+  }
 }
 
 double xThresh = 5;
@@ -140,11 +146,12 @@ void onProximityEvent(float d) {
   light = d;
 }
 
+void mousePressed() {
+  hasStarted = true; 
+}
+
 void onAccelerometerEvent(float x, float y, float z)
 {
-  if(!hasStarted) {
-     hasStarted = true; 
-  }
   int goal = targets.get(trialIndex).target;
   if(x >= xThresh && !selectionActive && stageOne) {
     selectionActive = true;
